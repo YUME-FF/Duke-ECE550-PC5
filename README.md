@@ -1,4 +1,4 @@
-# ECE550-PC4 README
+# ECE550-PC5 README
 
 ## Team Information
 
@@ -35,10 +35,10 @@ clock = what we feed to the skeleton
 | Rwe  | Rtype + Addi + Lw  |
 | Rdst  | Rtype  |
 | ALUinB  | Addi + Lw + Sw  |
-| ALUop  | Beq(Not in this checkpoint)  |
-| BR  | Beq(Not in this checkpoint)  |
+| ALUop  | Beq  |
+| BR  | Beq  |
 | DMwe  | Sw  |
-| JP  | J(Not in this checkpoint)  |
+| JP  | J  |
 | Rwd  | Lw  |
 
 
