@@ -99,6 +99,9 @@ module processor(
 	wire[31:0] PC_INPUT, PC_OUTPUT, PCplusN_OUTPUT;
     	wire isNotEqual_PC_Plus4, isLessThan_PC_Plus4, overflow_PC_Plus4;
 	wire isNotEqual_PC_PlusN, isLessThan_PC_PlusN, overflow_PC_PlusN;
+	
+	//bne blt
+	wire is_bne, is_blt, is_blt_tmp, is_bneblt, out_bneblt;
 		
 		//wire: instruction format
 		wire[31:0] instruction;
@@ -142,6 +145,19 @@ module processor(
 		5'b00000, PC_INPUT, isNotEqual_PC_Plus4, isLessThan_PC_Plus4, overflow_PC_Plus4);
 	alu pcPlusN(PCplusN_OUTPUT, Immediate_extension, 5'b00000,
 		5'b00000, PC_OUTPUT, isNotEqual_PC_PlusN, isLessThan_PC_PlusN, overflow_PC_PlusN);
+	
+	//is_bne
+	and is_bne0(is_bne, op_Bne, alu_isEqual);
+	
+	//is_blt
+	and is_blt0(is_blt_tmp, op_Blt, ~alu_lessThan);
+	and is_blt1(is_blt, is_blt_tmp, alu_isEqual);
+	
+	or is_bneblt0(is_bneblt, is_blt, is_bne);
+	
+	assign out_bneblt = is_bneblt？PCplusN_OUTPUT:PC_OUTPUT;
+	
+	
 			
     	//imem
 	assign address_imem = PC_OUTPUT[11:0];
