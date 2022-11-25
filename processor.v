@@ -96,8 +96,9 @@ module processor(
     /* YOUR CODE STARTS HERE */
 	 
     	//wire: PC
-    	wire[31:0] PC_INPUT, PC_OUTPUT;
+	wire[31:0] PC_INPUT, PC_OUTPUT, PCplusN_OUTPUT;
     	wire isNotEqual_PC_Plus4, isLessThan_PC_Plus4, overflow_PC_Plus4;
+	wire isNotEqual_PC_PlusN, isLessThan_PC_PlusN, overflow_PC_PlusN;
 		
 		//wire: instruction format
 		wire[31:0] instruction;
@@ -137,11 +138,13 @@ module processor(
     	pc pc1(clock, reset, PC_INPUT, PC_OUTPUT);
 		// NOTE: PC should plus one when update
 		// TODO: change related naming (pcPlus4 -> pcPlus1)
-    	alu pcPlus4(PC_OUTPUT, 32'h00000001, 5'b00000,
+	alu pcPlus4(PC_OUTPUT, 32'h00000001, 5'b00000,
 		5'b00000, PC_INPUT, isNotEqual_PC_Plus4, isLessThan_PC_Plus4, overflow_PC_Plus4);
+	alu pcPlusN(PCplusN_OUTPUT, Immediate_extension, 5'b00000,
+		5'b00000, PC_OUTPUT, isNotEqual_PC_PlusN, isLessThan_PC_PlusN, overflow_PC_PlusN);
 			
     	//imem
-    	assign address_imem = PC_OUTPUT[11:0];
+	assign address_imem = PC_OUTPUT[11:0];
     	assign instruction = q_imem;
 	 
     	//Instruction
