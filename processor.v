@@ -156,7 +156,7 @@ module processor(
 	or is_bneblt0(is_bneblt, is_blt, is_bne);
 	
 	assign out_bneblt = is_bneblt？PCplusN_OUTPUT:PC_OUTPUT;
-	
+	assign PC_INPUT = out_bneblt;
 	
 			
     	//imem
