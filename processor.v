@@ -128,9 +128,11 @@ module processor(
     	
 		//wire: sw
 		wire [31:0] dmem_out;
-	wire wren, ctrl_writeEnable;
-
-	 
+		wire wren, ctrl_writeEnable;
+		
+		//wire: J type and 2 I type
+		wire op_J, op_Bne, op_Jal, op_Jr, op_Blt, op_Bex, op_Setx;
+		
     	//PC
     	pc pc1(clock, reset, PC_INPUT, PC_OUTPUT);
 		// NOTE: PC should plus one when update
@@ -150,8 +152,8 @@ module processor(
     	assign ALUopcode = op_Rtype? instruction[6:2]: ALUop? 5'b00001:5'b00000;//instruction[6:2];
 		
 		//control signal assignment
-    	control_circuit controlCircuit(opcode, Rwe, Rdst, ALUinB, ALUop, BR, DMwe, JP, Rwd, op_Rtype, op_Addi, op_Sw, op_Lw);
-    	
+    	control_circuit controlCircuit(opcode, Rwe, Rdst, ALUinB, ALUop, BR, DMwe, JP, Rwd, op_Rtype, op_Addi, op_Sw, op_Lw, op_J, op_Bne, op_Jal, op_Jr, op_Blt, op_Bex, op_Setx);
+
 		//overflow -> rstatus
 		assign rstatus = op_ADD?32'd1:(op_SUB?32'd3:op_Addi?32'd2:32'd0);
 		
