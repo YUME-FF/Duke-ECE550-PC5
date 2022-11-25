@@ -102,6 +102,9 @@ module processor(
 	
 	//bne blt
 	wire is_bne, is_blt, is_blt_tmp, is_bneblt, out_bneblt;
+	
+	wire[26:0] T;
+	wire[31:0] T_extension;
 		
 		//wire: instruction format
 		wire[31:0] instruction;
@@ -156,7 +159,13 @@ module processor(
 	or is_bneblt0(is_bneblt, is_blt, is_bne);
 	
 	assign out_bneblt = is_bneblt？PCplusN_OUTPUT:PC_OUTPUT;
-	assign PC_INPUT = out_bneblt;
+	
+	//is_bex
+	and is_bex0(is_bex, op_Bex, alu_isEqual);
+	//jr -> PC_INPUT = regfile_dataB
+	//bne or blt -> PC_INPUT = PCplusN_OUTPUT
+	// other j types and bex -> PC_INPUT = 
+	assign PC_INPUT = op_Jr?regfile_dataB:JP?T_extension:is_bex?T_extension:out_bneblt;
 	
 			
     	//imem
@@ -164,6 +173,8 @@ module processor(
     	assign instruction = q_imem;
 	 
     	//Instruction
+	assign T = instruction[26:0];
+	assign T_extension = {5'd0,T};
     	assign opcode = instruction[31:27];
 		assign RS = instruction[21:17];
     	assign RT = instruction[16:12];
