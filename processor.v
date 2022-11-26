@@ -142,8 +142,8 @@ module processor(
 	// TODO: change related naming (pcPlus4 -> pcPlus1)
 	alu pcPlus4(PC_OUTPUT, 32'h00000001, 5'b00000,
 		5'b00000, PC_INPUT, isNotEqual_PC_Plus4, isLessThan_PC_Plus4, overflow_PC_Plus4);
-	alu pcPlusN(PCplusN_OUTPUT, Immediate_extension, 5'b00000,
-		5'b00000, PC_OUTPUT, isNotEqual_PC_PlusN, isLessThan_PC_PlusN, overflow_PC_PlusN);
+	alu pcPlusN(PC_INPUT, Immediate_extension, 5'b00000,
+		5'b00000, PCplusN_OUTPUT, isNotEqual_PC_PlusN, isLessThan_PC_PlusN, overflow_PC_PlusN);
 
 	//is_bne
 	and is_bne0(is_bne, op_Bne, alu_isEqual);
@@ -154,7 +154,7 @@ module processor(
 
 	or is_bneblt0(is_bneblt, is_blt, is_bne);
 
-	assign out_bneblt = is_bneblt ? PCplusN_OUTPUT : PC_OUTPUT;
+	assign out_bneblt = is_bneblt ? PCplusN_OUTPUT : PC_INPUT;
 
 	//is_bex
 	and is_bex0(is_bex, op_Bex, alu_isEqual);
