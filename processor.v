@@ -92,7 +92,7 @@ module processor(
 
 	/* YOUR CODE STARTS HERE */
 	//wire: PC
-	wire[31:0] PC_INPUT, PC_OUTPUT, PCplusN_OUTPUT;
+	wire[31:0] PC_INPUT, PC_OUTPUT, PCplusN_OUTPUT, PC_INPUT_TMP;
 	wire isNotEqual_PC_Plus4, isLessThan_PC_Plus4, overflow_PC_Plus4;
 	wire isNotEqual_PC_PlusN, isLessThan_PC_PlusN, overflow_PC_PlusN;
 
@@ -141,8 +141,8 @@ module processor(
 	// NOTE: PC should plus one when update
 	// TODO: change related naming (pcPlus4 -> pcPlus1)
 	alu pcPlus4(PC_OUTPUT, 32'h00000001, 5'b00000,
-		5'b00000, PC_INPUT, isNotEqual_PC_Plus4, isLessThan_PC_Plus4, overflow_PC_Plus4);
-	alu pcPlusN(PC_INPUT, Immediate_extension, 5'b00000,
+		5'b00000, PC_INPUT_TMP, isNotEqual_PC_Plus4, isLessThan_PC_Plus4, overflow_PC_Plus4);
+	alu pcPlusN(PC_INPUT_TMP, Immediate_extension, 5'b00000,
 		5'b00000, PCplusN_OUTPUT, isNotEqual_PC_PlusN, isLessThan_PC_PlusN, overflow_PC_PlusN);
 
 	//is_bne
@@ -154,7 +154,7 @@ module processor(
 
 	or is_bneblt0(is_bneblt, is_blt, is_bne);
 
-	assign out_bneblt = is_bneblt ? PCplusN_OUTPUT : PC_INPUT;
+	assign out_bneblt = is_bneblt ? PCplusN_OUTPUT : PC_INPUT_TMP;
 
 	//is_bex
 	and is_bex0(is_bex, op_Bex, alu_isEqual);
