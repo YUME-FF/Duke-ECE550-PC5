@@ -161,7 +161,7 @@ module processor(
 	//jr -> PC_INPUT = regfile_dataB
 	//bne or blt -> PC_INPUT = PCplusN_OUTPUT
 	// other j types and bex -> PC_INPUT =
-	assign PC_INPUT = op_Jr?regfile_dataB:JP?T_extension:is_bex?T_extension:out_bneblt;
+	assign PC_INPUT = op_Jr ? reg_B : JP?T_extension : is_bex ? T_extension : out_bneblt;
 
 
 	//imem
