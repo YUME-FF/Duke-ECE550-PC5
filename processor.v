@@ -155,7 +155,7 @@ module processor(
 	
 	or is_bneblt0(is_bneblt, is_blt, is_bne);
 	
-	assign out_bneblt = is_bneblt？PCplusN_OUTPUT:PC_OUTPUT;
+	assign out_bneblt = is_bneblt ? PCplusN_OUTPUT : PC_OUTPUT;
 	
 	//is_bex
 	and is_bex0(is_bex, op_Bex, alu_isEqual);
