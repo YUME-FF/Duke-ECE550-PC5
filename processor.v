@@ -196,7 +196,9 @@ module processor(
 	or if_ovf1(if_ovf, if_ovf_tmp, op_Addi);
 
 	//if overflow -> $r[5'd30] = data_writeReg (see details in regfile)
-	assign RD = if_ovf?(overflow?5'd30:instruction[26:22]):instruction[26:22];
+	//if op_Jal -> $r[5'd31] = data_writeReg (see details in regfile)
+	//if op_Setx -> $r[5'd30] = data_writeReg (see details in regfile)
+	assign RD =  op_Jal?5'd31:op_Setx?5'd30:if_ovf?(overflow?5'd30:instruction[26:22]):instruction[26:22];
 
 	//extend immediate to 32 bit
 	assign Immediate = instruction[16:0];
@@ -205,9 +207,12 @@ module processor(
 	// Regfile
 	assign ctrl_writeEnable = Rwe; //add addi lw
 	assign ctrl_writeReg = RD;
-	assign ctrl_readRegA = RS;
-	assign ctrl_readRegB = Rdst?RT:instruction[26:22]; //if Rtype, then instruction[16:12], otherwise instruction[26:22]
-	assign data_writeReg = op_Lw? dmem_out:if_ovf?(overflow?rstatus:aluOut):aluOut;
+	assign ctrl_readRegA = op_Bex?5'd0:RS;
+	
+	//if 5'd30 -? check $r[5'd30]
+	//if Rtype, then instruction[16:12], otherwise instruction[26:22]
+	assign ctrl_readRegB = op_Bex?5'd30:Rdst?RT:instruction[26:22]; 
+	assign data_writeReg = op_Jal?PC_INPUT_TMP:op_Setx?T_extension:op_Lw? dmem_out:if_ovf?(overflow?rstatus:aluOut):aluOut;
 	assign reg_A = data_readRegA;
 	assign reg_B = ALUinB?Immediate_extension: data_readRegB;
 
