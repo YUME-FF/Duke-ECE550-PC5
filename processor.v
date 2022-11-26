@@ -1,6 +1,3 @@
-// BUG: [#addi] falsely interpret immediate
-// BUG: [#DMEM] failed to write in correct input data
-
 /**
  * READ THIS DESCRIPTION!
  *
