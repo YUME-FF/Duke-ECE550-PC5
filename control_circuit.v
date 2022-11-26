@@ -67,13 +67,12 @@ module control_circuit(opcode, Rwe, Rdst, ALUinB, ALUop, BR, DMwe, JP, Rwd, op_R
 	or or_ALUop_1(ALUop, or_ALUop_Tmp, op_Bex);
 	
 	//BR = Bne + Blt
-	or_BR(BR, op_Bne, op_Blt);
-	
+	or or_BR(BR, op_Bne, op_Blt);
+
 	//DMwe = Sw
 	assign DMwe = op_Sw;
-	
+
 	//JP = J + Jal
-	assign JP = 1'b0;
 	or or_JP(JP, op_J, op_Jal);
 	
 	
