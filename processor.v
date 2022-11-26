@@ -97,7 +97,7 @@ module processor(
 	wire isNotEqual_PC_PlusN, isLessThan_PC_PlusN, overflow_PC_PlusN;
 
 	//bne blt
-	wire is_bne, is_blt, is_blt_tmp, is_bneblt;
+	wire is_bne, is_blt, is_blt_tmp, is_bneblt, is_bex;
 	wire[31:0] out_bneblt;
 	wire[26:0] T;
 	wire[31:0] T_extension;
