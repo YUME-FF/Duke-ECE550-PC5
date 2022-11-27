@@ -11,7 +11,7 @@ module regfile(
 	reg[31:0] registers[31:0];
 
 	integer i;
-	
+
 	always @(posedge clock or posedge ctrl_reset)
 	begin
 		if(ctrl_reset)
@@ -25,8 +25,8 @@ module regfile(
 			if(ctrl_writeEnable && ctrl_writeReg != 5'd0)
 				registers[ctrl_writeReg] = data_writeReg;
 	end
-	
-	assign data_readRegA = ctrl_writeEnable && (ctrl_writeReg == ctrl_readRegA) ? 32'bz : registers[ctrl_readRegA];
-	assign data_readRegB = ctrl_writeEnable && (ctrl_writeReg == ctrl_readRegB) ? 32'bz : registers[ctrl_readRegB];
-	
+
+	assign data_readRegA = registers[ctrl_readRegA];
+	assign data_readRegB = registers[ctrl_readRegB];
+
 endmodule
